@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html>
   <head>
     <title>SmokePing Latency Page for <##title##></title>
     <meta charset="utf-8">
@@ -165,10 +165,6 @@
             <h6 class="sidebar-heading d-flex justify-content-between align-items-end px-3 mt-4 mb-1 text-muted">
               <span>Running on <##smokeping##> by <##author##></span>
             </h6>
-            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-              <##smokelogo##>
-              <##rrdlogo##>
-            </h6>
           </div>
         </nav>
 
@@ -227,12 +223,23 @@
           var newMenu = {};
           var lastMenu;
 
-          jQuery('> tbody > tr', table).each(function(i, tr) {
+          jQuery('> li', table).each(function(i, tr) {
 
-              var submenuTable = jQuery('> td > table.menu', tr);
+              var submenuTable = jQuery('> ul.menu', tr);
 
               if(submenuTable.length)
               {
+                var a = jQuery('> a', tr);                                                                                                                                                                        
+                var link = a.prop('href');                                                                                                                                                                      
+                var title = a.text();                                                                                                                                                                           
+                                                                                                                                                                                                                
+                menuObj[title] = {                                                                                                                                                                              
+                  title: title,                                                                                                                                                                                
+                  link: link,                                                                                                                                                                                  
+                  submenu: {},                                                                                                                                                                                 
+                  active: a.hasClass('menulinkactive')                                                                                                                                                         
+                };
+		            lastMenu = title;          
                 parseMenu(submenuTable, menuObj[lastMenu].submenu);
                 lastMenu = null;
               }
@@ -302,8 +309,7 @@
           });
         }
         else
-          parseMenu(jQuery('#menuTpl > table.menu'), menu);
-
+          parseMenu(jQuery('#menuTpl > ul.menu'), menu);
         buildMenu(jQuery('#Menu'), menu);
       });
     </script>
