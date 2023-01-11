@@ -1,1 +1,1 @@
-# smokeping
+# Smokeping Bootstrap Theme
